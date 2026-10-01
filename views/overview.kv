@@ -1,0 +1,36 @@
+<OverviewView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        BoxLayout:
+            size_hint_y: None
+            height: 92
+            spacing: 12
+            StatCard:
+                caption: "Sklady"
+                value: str(len(app.vm.warehouses_vm.rows))
+            StatCard:
+                caption: "Položky zboží"
+                value: str(len(app.vm.products_vm.rows))
+            StatCard:
+                caption: "Faktury"
+                value: str(len(app.vm.invoices_vm.rows))
+        Card:
+            SectionLabel:
+                text: "Aktuální zásoby"
+            DataTable:
+                headers: "sku|SKU|0.18;name|Název|0.34;warehouse|Sklad|0.28;quantity_label|Množství|0.20"
+                rows: app.vm.stock
+                empty_text: "Sklady jsou prázdné. Zboží nejdřív přijměte."
+        Card:
+            SectionLabel:
+                text: "Poslední pohyby"
+            DataTable:
+                headers: "when|Kdy|0.22;kind_label|Druh|0.18;description|Pohyb|0.60"
+                rows: app.vm.movements
+                empty_text: "Zatím nebyl žádný pohyb."

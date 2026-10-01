@@ -1,0 +1,117 @@
+<Card>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: self.minimum_height
+    spacing: 10
+    padding: 16, 16
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
+
+<FormInput@TextInput>:
+    size_hint_y: None
+    height: 42
+    font_size: 15
+    multiline: False
+    write_tab: not self.multiline
+    padding: 10, 10, 10, 8
+    background_normal: ""
+    background_active: ""
+    background_color: 0.965, 0.973, 0.982, 1
+    foreground_color: 0.12, 0.16, 0.22, 1
+    hint_text_color: 0.55, 0.60, 0.66, 1
+    cursor_color: 0.12, 0.16, 0.22, 1
+    selection_color: 0.15, 0.39, 0.85, 0.28
+
+<PrimaryButton@Button>:
+    button_width: 280
+    size_hint: None, None
+    width: self.button_width
+    height: 44
+    background_normal: ""
+    background_color: 0.15, 0.39, 0.85, 1
+    color: 1, 1, 1, 1
+    bold: True
+    font_size: 15
+
+<KindButton@Button>:
+    size_hint: None, None
+    width: 210
+    height: 40
+    background_normal: ""
+    background_color: 0.15, 0.39, 0.85, 1
+    color: 1, 1, 1, 1
+    bold: True
+    font_size: 14
+
+<NavButton@Button>:
+    background_normal: ""
+    background_down: ""
+    background_color: 0, 0, 0, 0
+    color: 1, 1, 1, 1
+    halign: "left"
+    valign: "middle"
+    font_size: 15
+    size_hint_y: None
+    height: 42
+    padding: 12, 0
+    text_size: self.width - 24, self.height
+
+<SectionLabel@Label>:
+    color: 0.12, 0.16, 0.22, 1
+    font_size: 16
+    bold: True
+    halign: "left"
+    valign: "middle"
+    size_hint_y: None
+    height: 26
+    text_size: self.size
+
+<FieldLabel@Label>:
+    color: 0.35, 0.42, 0.51, 1
+    font_size: 13
+    halign: "left"
+    valign: "middle"
+    size_hint_y: None
+    height: 18
+    text_size: self.size
+
+<HintLabel@Label>:
+    color: 0.35, 0.42, 0.51, 1
+    font_size: 14
+    halign: "left"
+    valign: "middle"
+    size_hint_y: None
+    height: 24
+    text_size: self.size
+
+<StatCard@BoxLayout>:
+    caption: ""
+    value: "0"
+    orientation: "vertical"
+    padding: 16, 12
+    spacing: 2
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
+    Label:
+        text: root.value
+        color: 0.15, 0.39, 0.85, 1
+        font_size: 28
+        bold: True
+        size_hint_y: None
+        height: 40
+    Label:
+        text: root.caption
+        color: 0.35, 0.42, 0.51, 1
+        font_size: 14
+        size_hint_y: None
+        height: 22

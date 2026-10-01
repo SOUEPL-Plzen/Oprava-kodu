@@ -1,0 +1,71 @@
+<ReceiptView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        Card:
+            SectionLabel:
+                text: "Příjem zboží na sklad"
+            HintLabel:
+                text: "Než zboží přesunete nebo vydáte, musí být přijaté na konkrétní sklad."
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Zboží"
+                    Spinner:
+                        text: app.vm.receipt_vm.rc_product
+                        values: app.vm.product_choices
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.receipt_vm.rc_product = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Sklad"
+                    Spinner:
+                        text: app.vm.receipt_vm.rc_warehouse
+                        values: app.vm.warehouse_choices
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.receipt_vm.rc_warehouse = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Množství"
+                    FormInput:
+                        hint_text: "např. 10"
+                        text: app.vm.receipt_vm.rc_qty
+                        on_text: app.vm.receipt_vm.rc_qty = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Poznámka"
+                    FormInput:
+                        hint_text: "dodací list, volitelné"
+                        text: app.vm.receipt_vm.rc_note
+                        on_text: app.vm.receipt_vm.rc_note = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 48
+                PrimaryButton:
+                    text: "Přijmout na sklad"
+                    on_release: app.vm.receipt_vm.receive()
+                Widget:

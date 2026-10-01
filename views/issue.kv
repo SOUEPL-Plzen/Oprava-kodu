@@ -1,0 +1,453 @@
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+
+<DraftLineView>:
+    size_hint_y: None
+    height: 42
+    spacing: 8
+    padding: 8, 0
+    canvas.before:
+        Color:
+            rgba: (0.96, 0.97, 0.98, 1) if self.index % 2 == 0 else (1, 1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        text: root.title + "   |   sklad " + root.warehouse + "   |   " + root.quantity_label + " " + root.unit + "   |   " + root.price_label + " Kč   |   " + root.gross_label
+        color: 0.12, 0.16, 0.22, 1
+        font_size: 14
+        halign: "left"
+        valign: "middle"
+        shorten: True
+        shorten_from: "right"
+        text_size: self.size
+    Button:
+        text: "Odebrat"
+        size_hint_x: None
+        width: 96
+        background_normal: ""
+        background_color: 0.70, 0.16, 0.14, 1
+        color: 1, 1, 1, 1
+        font_size: 13
+        on_release: app.vm.issue_vm.remove_line(root.index)
+
+<IssueView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        Card:
+            SectionLabel:
+                text: "Odběratel"
+            BoxLayout:
+                size_hint_y: None
+                height: 44
+                spacing: 8
+                KindButton:
+                    text: "Fyzická osoba"
+                    background_color: (0.15, 0.39, 0.85, 1) if app.vm.issue_vm.party_kind == "fyzicka" else (0.75, 0.78, 0.82, 1)
+                    on_release: app.vm.issue_vm.party_kind = "fyzicka"
+                KindButton:
+                    text: "Právnická osoba"
+                    background_color: (0.15, 0.39, 0.85, 1) if app.vm.issue_vm.party_kind == "pravnicka" else (0.75, 0.78, 0.82, 1)
+                    on_release: app.vm.issue_vm.party_kind = "pravnicka"
+                Widget:
+            ScreenManager:
+                size_hint_y: None
+                height: person_box.height if app.vm.issue_vm.party_kind == "fyzicka" else legal_box.height
+                transition: NoTransition()
+                on_kv_post: app.vm.issue_vm.fbind("party_kind", self.setter("current")); self.current = app.vm.issue_vm.party_kind
+                Screen:
+                    name: "fyzicka"
+                    BoxLayout:
+                        id: person_box
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 10
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Jméno"
+                                FormInput:
+                                    text: app.vm.issue_vm.first_name
+                                    on_text: app.vm.issue_vm.first_name = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Příjmení"
+                                FormInput:
+                                    text: app.vm.issue_vm.last_name
+                                    on_text: app.vm.issue_vm.last_name = self.text
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "IČO (OSVČ, nepovinné)"
+                                FormInput:
+                                    hint_text: "8 číslic"
+                                    text: app.vm.issue_vm.ico
+                                    on_text: app.vm.issue_vm.ico = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "DIČ (nepovinné)"
+                                FormInput:
+                                    hint_text: "CZ…"
+                                    text: app.vm.issue_vm.dic
+                                    on_text: app.vm.issue_vm.dic = self.text
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: 68
+                            spacing: 4
+                            FieldLabel:
+                                text: "Ulice a číslo"
+                            FormInput:
+                                text: app.vm.issue_vm.street
+                                on_text: app.vm.issue_vm.street = self.text
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Město"
+                                FormInput:
+                                    text: app.vm.issue_vm.city
+                                    on_text: app.vm.issue_vm.city = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "PSČ"
+                                FormInput:
+                                    hint_text: "110 00"
+                                    text: app.vm.issue_vm.zip_code
+                                    on_text: app.vm.issue_vm.zip_code = self.text
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Stát"
+                                FormInput:
+                                    text: app.vm.issue_vm.country
+                                    on_text: app.vm.issue_vm.country = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Telefon"
+                                FormInput:
+                                    text: app.vm.issue_vm.phone
+                                    on_text: app.vm.issue_vm.phone = self.text
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: 68
+                            spacing: 4
+                            FieldLabel:
+                                text: "E-mail"
+                            FormInput:
+                                text: app.vm.issue_vm.email
+                                on_text: app.vm.issue_vm.email = self.text
+                Screen:
+                    name: "pravnicka"
+                    BoxLayout:
+                        id: legal_box
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 10
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: 68
+                            spacing: 4
+                            FieldLabel:
+                                text: "Obchodní firma"
+                            FormInput:
+                                hint_text: "název společnosti"
+                                text: app.vm.issue_vm.company_name
+                                on_text: app.vm.issue_vm.company_name = self.text
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "IČO"
+                                FormInput:
+                                    hint_text: "8 číslic"
+                                    text: app.vm.issue_vm.ico
+                                    on_text: app.vm.issue_vm.ico = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "DIČ"
+                                FormInput:
+                                    hint_text: "CZ…"
+                                    text: app.vm.issue_vm.dic
+                                    on_text: app.vm.issue_vm.dic = self.text
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Kontaktní jméno"
+                                FormInput:
+                                    text: app.vm.issue_vm.first_name
+                                    on_text: app.vm.issue_vm.first_name = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Kontaktní příjmení"
+                                FormInput:
+                                    text: app.vm.issue_vm.last_name
+                                    on_text: app.vm.issue_vm.last_name = self.text
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: 68
+                            spacing: 4
+                            FieldLabel:
+                                text: "Ulice a číslo"
+                            FormInput:
+                                text: app.vm.issue_vm.street
+                                on_text: app.vm.issue_vm.street = self.text
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Město"
+                                FormInput:
+                                    text: app.vm.issue_vm.city
+                                    on_text: app.vm.issue_vm.city = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "PSČ"
+                                FormInput:
+                                    hint_text: "110 00"
+                                    text: app.vm.issue_vm.zip_code
+                                    on_text: app.vm.issue_vm.zip_code = self.text
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 68
+                            spacing: 12
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Stát"
+                                FormInput:
+                                    text: app.vm.issue_vm.country
+                                    on_text: app.vm.issue_vm.country = self.text
+                            BoxLayout:
+                                orientation: "vertical"
+                                spacing: 4
+                                FieldLabel:
+                                    text: "Telefon"
+                                FormInput:
+                                    text: app.vm.issue_vm.phone
+                                    on_text: app.vm.issue_vm.phone = self.text
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: 68
+                            spacing: 4
+                            FieldLabel:
+                                text: "E-mail"
+                            FormInput:
+                                text: app.vm.issue_vm.email
+                                on_text: app.vm.issue_vm.email = self.text
+        Card:
+            SectionLabel:
+                text: "Hlavička faktury"
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Datum vystavení"
+                    FormInput:
+                        hint_text: "RRRR-MM-DD"
+                        text: app.vm.issue_vm.issued_on
+                        on_text: app.vm.issue_vm.issued_on = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "DUZP"
+                    FormInput:
+                        hint_text: "RRRR-MM-DD"
+                        text: app.vm.issue_vm.taxable_on
+                        on_text: app.vm.issue_vm.taxable_on = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Datum splatnosti"
+                    FormInput:
+                        hint_text: "RRRR-MM-DD"
+                        text: app.vm.issue_vm.due_on
+                        on_text: app.vm.issue_vm.due_on = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Způsob úhrady"
+                    Spinner:
+                        text: app.vm.issue_vm.payment_method
+                        values: app.vm.issue_vm.payment_methods
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.issue_vm.payment_method = self.text
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "Variabilní symbol"
+                FormInput:
+                    hint_text: "doplní se z čísla faktury"
+                    text: app.vm.issue_vm.variable_symbol
+                    on_text: app.vm.issue_vm.variable_symbol = self.text
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 110
+                spacing: 4
+                FieldLabel:
+                    text: "Poznámka"
+                FormInput:
+                    hint_text: "volitelné"
+                    multiline: True
+                    height: 86
+                    text: app.vm.issue_vm.invoice_note
+                    on_text: app.vm.issue_vm.invoice_note = self.text
+        Card:
+            SectionLabel:
+                text: "Položky výdeje"
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Zboží"
+                    Spinner:
+                        text: app.vm.issue_vm.line_product
+                        values: app.vm.product_choices
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.issue_vm.line_product = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Sklad"
+                    Spinner:
+                        text: app.vm.issue_vm.line_warehouse
+                        values: app.vm.warehouse_choices
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.issue_vm.line_warehouse = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Množství"
+                    FormInput:
+                        hint_text: "např. 1"
+                        text: app.vm.issue_vm.line_qty
+                        on_text: app.vm.issue_vm.line_qty = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Cena bez DPH"
+                    FormInput:
+                        hint_text: "doplní se ze zboží"
+                        text: app.vm.issue_vm.line_price
+                        on_text: app.vm.issue_vm.line_price = self.text
+            HintLabel:
+                text: app.vm.issue_vm.line_available
+            BoxLayout:
+                size_hint_y: None
+                height: 48
+                PrimaryButton:
+                    text: "Přidat položku"
+                    button_width: 220
+                    on_release: app.vm.issue_vm.add_line()
+                Widget:
+            DraftBoard:
+                items: app.vm.issue_vm.draft_lines
+                empty_text: "Na faktuře zatím není žádná položka."
+            Label:
+                text: app.vm.issue_vm.draft_totals_text
+                color: 0.12, 0.16, 0.22, 1
+                font_size: 16
+                bold: True
+                halign: "left"
+                valign: "middle"
+                size_hint_y: None
+                height: 32
+                text_size: self.size
+            BoxLayout:
+                size_hint_y: None
+                height: 48
+                PrimaryButton:
+                    text: "Vystavit fakturu a vydat zboží"
+                    button_width: 340
+                    on_release: app.vm.issue_vm.issue_invoice()
+                Widget:

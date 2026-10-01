@@ -1,0 +1,45 @@
+<InvoiceRowView>:
+    size_hint_y: None
+    height: 48
+    spacing: 8
+    padding: 8, 4
+    canvas.before:
+        Color:
+            rgba: (0.96, 0.97, 0.98, 1) if self.index % 2 == 0 else (1, 1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        text: root.number + "    " + root.issued + "    " + root.buyer + "    " + root.total + "    " + root.payment
+        color: 0.12, 0.16, 0.22, 1
+        font_size: 14
+        halign: "left"
+        valign: "middle"
+        shorten: True
+        shorten_from: "right"
+        text_size: self.size
+    Button:
+        text: "Detail"
+        size_hint_x: None
+        width: 96
+        background_normal: ""
+        background_color: 0.15, 0.39, 0.85, 1
+        color: 1, 1, 1, 1
+        font_size: 13
+        on_release: app.vm.invoices_vm.open_invoice(root.invoice_id)
+
+<InvoicesView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        Card:
+            SectionLabel:
+                text: "Vystavené faktury"
+            InvoiceBoard:
+                items: app.vm.invoices_vm.rows
+                empty_text: "Zatím nebyla vystavená žádná faktura."

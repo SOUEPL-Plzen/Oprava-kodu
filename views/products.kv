@@ -1,0 +1,87 @@
+<ProductsView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        Card:
+            SectionLabel:
+                text: "Nové zboží"
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "SKU"
+                    FormInput:
+                        hint_text: "např. SROUB-8"
+                        text: app.vm.products_vm.pr_sku
+                        on_text: app.vm.products_vm.pr_sku = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Název"
+                    FormInput:
+                        hint_text: "Šroub M8"
+                        text: app.vm.products_vm.pr_name
+                        on_text: app.vm.products_vm.pr_name = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Měrná jednotka"
+                    Spinner:
+                        text: app.vm.products_vm.pr_unit
+                        values: app.vm.products_vm.units
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.products_vm.pr_unit = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Sazba DPH"
+                    Spinner:
+                        text: app.vm.products_vm.pr_vat
+                        values: app.vm.products_vm.vat_rates
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.products_vm.pr_vat = self.text
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "Cena bez DPH"
+                FormInput:
+                    hint_text: "0,00"
+                    text: app.vm.products_vm.pr_price
+                    on_text: app.vm.products_vm.pr_price = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 48
+                PrimaryButton:
+                    text: "Přidat zboží"
+                    on_release: app.vm.products_vm.add_product()
+                Widget:
+        Card:
+            SectionLabel:
+                text: "Katalog"
+            DataTable:
+                headers: "sku|SKU|0.16;name|Název|0.30;unit|MJ|0.08;price_label|Cena bez DPH|0.18;vat_label|DPH|0.10;stock_label|Skladem celkem|0.18"
+                rows: app.vm.products_vm.rows
+                empty_text: "Katalog je prázdný."

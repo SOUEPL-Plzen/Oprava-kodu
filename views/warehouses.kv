@@ -1,0 +1,59 @@
+<WarehousesView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        Card:
+            SectionLabel:
+                text: "Nový sklad"
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Kód"
+                    FormInput:
+                        hint_text: "např. HLAVNI"
+                        text: app.vm.warehouses_vm.wh_code
+                        on_text: app.vm.warehouses_vm.wh_code = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Název"
+                    FormInput:
+                        hint_text: "Hlavní sklad"
+                        text: app.vm.warehouses_vm.wh_name
+                        on_text: app.vm.warehouses_vm.wh_name = self.text
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "Adresa"
+                FormInput:
+                    hint_text: "ulice, město"
+                    text: app.vm.warehouses_vm.wh_address
+                    on_text: app.vm.warehouses_vm.wh_address = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 48
+                PrimaryButton:
+                    text: "Přidat sklad"
+                    on_release: app.vm.warehouses_vm.add_warehouse()
+                Widget:
+        Card:
+            SectionLabel:
+                text: "Založené sklady"
+            DataTable:
+                headers: "code|Kód|0.18;name|Název|0.32;address|Adresa|0.50"
+                rows: app.vm.warehouses_vm.rows
+                empty_text: "Zatím není založený žádný sklad."

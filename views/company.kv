@@ -1,0 +1,144 @@
+<CompanyView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        Card:
+            SectionLabel:
+                text: "Údaje dodavatele na faktuře"
+            HintLabel:
+                text: "Tyto údaje se na fakturu opíší v okamžiku vystavení."
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "Název"
+                FormInput:
+                    hint_text: "firma nebo jméno podnikatele"
+                    text: app.vm.company_vm.co_name
+                    on_text: app.vm.company_vm.co_name = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "IČO"
+                    FormInput:
+                        text: app.vm.company_vm.co_ico
+                        on_text: app.vm.company_vm.co_ico = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "DIČ"
+                    FormInput:
+                        hint_text: "CZ…"
+                        text: app.vm.company_vm.co_dic
+                        on_text: app.vm.company_vm.co_dic = self.text
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "Ulice a číslo"
+                FormInput:
+                    text: app.vm.company_vm.co_street
+                    on_text: app.vm.company_vm.co_street = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Město"
+                    FormInput:
+                        text: app.vm.company_vm.co_city
+                        on_text: app.vm.company_vm.co_city = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "PSČ"
+                    FormInput:
+                        text: app.vm.company_vm.co_zip
+                        on_text: app.vm.company_vm.co_zip = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Stát"
+                    FormInput:
+                        text: app.vm.company_vm.co_country
+                        on_text: app.vm.company_vm.co_country = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Telefon"
+                    FormInput:
+                        text: app.vm.company_vm.co_phone
+                        on_text: app.vm.company_vm.co_phone = self.text
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "E-mail"
+                FormInput:
+                    text: app.vm.company_vm.co_email
+                    on_text: app.vm.company_vm.co_email = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Číslo účtu"
+                    FormInput:
+                        text: app.vm.company_vm.co_account
+                        on_text: app.vm.company_vm.co_account = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Kód banky"
+                    FormInput:
+                        text: app.vm.company_vm.co_bank
+                        on_text: app.vm.company_vm.co_bank = self.text
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "IBAN"
+                FormInput:
+                    text: app.vm.company_vm.co_iban
+                    on_text: app.vm.company_vm.co_iban = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 48
+                PrimaryButton:
+                    text: "Uložit dodavatele"
+                    button_width: 240
+                    on_release: app.vm.company_vm.save_company()
+                Widget:

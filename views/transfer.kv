@@ -1,0 +1,85 @@
+<TransferView@ScrollView>:
+    do_scroll_x: False
+    bar_width: 8
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: 12
+        padding: 16, 16, 16, 20
+        Card:
+            SectionLabel:
+                text: "Přesun mezi sklady"
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Zboží"
+                    Spinner:
+                        text: app.vm.transfer_vm.tr_product
+                        values: app.vm.product_choices
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.transfer_vm.tr_product = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Množství"
+                    FormInput:
+                        hint_text: "např. 2"
+                        text: app.vm.transfer_vm.tr_qty
+                        on_text: app.vm.transfer_vm.tr_qty = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 68
+                spacing: 12
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Ze skladu"
+                    Spinner:
+                        text: app.vm.transfer_vm.tr_from
+                        values: app.vm.warehouse_choices
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.transfer_vm.tr_from = self.text
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 4
+                    FieldLabel:
+                        text: "Do skladu"
+                    Spinner:
+                        text: app.vm.transfer_vm.tr_to
+                        values: app.vm.warehouse_choices
+                        size_hint_y: None
+                        height: 42
+                        font_size: 15
+                        on_text: app.vm.transfer_vm.tr_to = self.text
+            HintLabel:
+                text: app.vm.transfer_vm.tr_available
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: 68
+                spacing: 4
+                FieldLabel:
+                    text: "Poznámka"
+                FormInput:
+                    hint_text: "volitelné"
+                    text: app.vm.transfer_vm.tr_note
+                    on_text: app.vm.transfer_vm.tr_note = self.text
+            BoxLayout:
+                size_hint_y: None
+                height: 48
+                PrimaryButton:
+                    text: "Přesunout"
+                    on_release: app.vm.transfer_vm.transfer()
+                Widget:
